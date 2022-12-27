@@ -1,3 +1,13 @@
-<html>
-    Look here, there's nothing here...
-</html>
+{{ define "main" -}}
+<div>
+  ERMAHGERD you made a wrong turn...
+</div>
+<ul class="article-list">
+  {{ range (.Paginate ( where .Site.RegularPages "Type" "in" site.Params.mainSections )).Pages -}}
+  <li class="article-item">
+    <div class="article-date">{{ .Date.Format (.Site.Params.dateFormat | default "2006-01-02 15:04") }}</div>
+    <div class="article-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></div>
+  </li>
+  {{ end -}}
+</ul>
+{{ end -}}
