@@ -1,5 +1,10 @@
 <head>
     <title>{{ if not .IsHome }}{{ .Title }} - {{ end }}{{ .Site.Title }}</title>
     {{- with .Site.Params.favicon }}<link rel="shortcut icon" href="{{ . }}" type="image/x-icon" />{{ end }}
+    {{ if site.Params.useRss -}}
+        {{ with .OutputFormats.Get "rss" -}}
+            {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+        {{ end -}}
+    {{ end -}}
     <link rel="stylesheet" type="text/css" href="{{ "/css/main.css" | relURL }}">
 </head>

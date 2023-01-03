@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
+    {{- $dateFmt := "2006-01-02" -}}
+    {{- $dateCmp := now.AddDate -2 0 0 -}}
     {{- partial "head.html" . -}}
     <body>
         {{- partial "header.html" . -}}
+        <p>
+            Published: {{ .Date.Format (site.Params.dateFormat | default $dateFmt) }}
+            {{- if not (.Lastmod.Equal (.Date)) }}
+            Last modified: {{ .Lastmod.Format (site.Params.dateFormat | default $dateFmt) }}
+            {{- end -}}
+        </p>
+        {{ if and (.Lastmod.Before $dateCmp) (.Date.Before $dateCmp)}}
+        <blockquote>WARNING: This post is from many years in the past, it's information may be outdated and/or no longer correct.</blockquote>
+        {{ end }}
         <main>
         {{ .Content -}}
         </main>
